@@ -1,0 +1,12 @@
+services:
+  ha-mcp-server:
+    build: .
+    container_name: ha-mcp-server
+    ports:
+      - "${MCP_PORT:-8080}:8080"
+    environment:
+      HA_URL: ${HA_URL}
+      HA_TOKEN: ${HA_TOKEN}
+      MCP_HOST: "0.0.0.0"
+      MCP_PORT: "8080"
+    restart: unless-stopped
