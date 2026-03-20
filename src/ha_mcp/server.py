@@ -1,11 +1,12 @@
 from mcp.server.fastmcp import FastMCP
 
 from .client import HomeAssistantClient
-from .config import settings
 from .tools import register_all
 
 
 def create_server() -> FastMCP:
+    # host/port are configured via FASTMCP_HOST / FASTMCP_PORT env vars
+    # set in docker-compose.yml — no constructor kwargs needed.
     mcp = FastMCP(
         "Home Assistant MCP",
         instructions=(
@@ -22,8 +23,6 @@ def create_server() -> FastMCP:
             "Workflow tip: always use list_* or search_* tools first to discover IDs, "
             "then use get_* tools for full details on specific items."
         ),
-        host=settings.mcp_host,
-        port=settings.mcp_port,
     )
     ha = HomeAssistantClient()
     register_all(mcp, ha)

@@ -7,6 +7,6 @@ services:
     environment:
       HA_URL: ${HA_URL}
       HA_TOKEN: ${HA_TOKEN}
-      MCP_HOST: "0.0.0.0"
-      MCP_PORT: "8080"
+      FASTMCP_HOST: "0.0.0.0"
+      FASTMCP_PORT: "8080"
     restart: unless-stopped
