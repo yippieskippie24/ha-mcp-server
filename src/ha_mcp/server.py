@@ -5,10 +5,17 @@ from .tools import register_all
 
 
 def create_server() -> FastMCP:
-    # host/port are configured via FASTMCP_HOST / FASTMCP_PORT env vars
-    # set in docker-compose.yml — no constructor kwargs needed.
+    # Disable DNS rebinding protection so requests proxied via Tailscale
+    # (or any reverse proxy) are accepted regardless of Host header.
+    try:
+        from mcp.server.transport_security import TransportSecuritySettings
+        transport_security = TransportSecuritySettings(enable_dns_rebinding_protection=False)
+    except ImportError:
+        transport_security = None
+
     mcp = FastMCP(
         "Home Assistant MCP",
+        **({"transport_security": transport_security} if transport_security else {}),
         instructions=(
             "MCP server for Home Assistant configuration management and data analysis.\n\n"
             "Available capabilities:\n"
