@@ -30,8 +30,11 @@ def create_server() -> FastMCP:
 
 
 def main() -> None:
+    import os
     mcp = create_server()
-    mcp.run(transport="streamable-http")
+    host = os.environ.get("FASTMCP_HOST", "127.0.0.1")
+    port = int(os.environ.get("FASTMCP_PORT", "8000"))
+    mcp.run(transport="streamable-http", host=host, port=port)
 
 
 if __name__ == "__main__":
